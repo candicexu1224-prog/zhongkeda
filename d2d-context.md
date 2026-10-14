@@ -80,3 +80,57 @@ M7 h276: 底部(0,0,w1920)
 - m7 加 class="once"；IO/revealCheck 中 once 模块显现后写 dataset.done=1，滚出视口不再移除 .reveal（锁定）
 - 其余模块保持可逆
 - 序列实测（滚到底→回顶）：m2~m6 复位 hidden，m7 保持 REVEAL；临时 seq 钩子验证后已移除
+
+## 发布（GitHub + Cloudflare）
+- 演示目录自包含化：切图拷入 演示/切图（index.html 路径改为 切图/）；refs/shots 移至 ../verify/（不入仓库/不入部署）
+- git：演示目录 init -b main，首提交 34 文件（含切图/字体/资产，~65MB）；安全审查按用户选择跳过
+- Cloudflare：wrangler assets-only Worker `ustc-chem-graph`（配置 qoder/wrangler.ustc-chem.jsonc，assets.directory=/tmp/ustc-deploy 干净副本 32 文件无点文件）
+  URL: https://ustc-chem-graph.chaoxing.workers.dev ；沙箱 curl workers.dev 超时（网络限制），需用户浏览器目视
+- GitHub：待用户提供空仓库 URL 后配置 remote；推送需代理 git -c http.proxy=http://127.0.0.1:7897 -c https.proxy=http://127.0.0.1:7897 push -u origin main
+- GitHub 远程已配置并推送成功：https://github.com/candicexu1224-prog/zhongkeda.git （main，09cc6d6；钥匙串凭证+代理 7897）
+
+## 首屏中部改活写（弃 首屏-内容/hero-title 切图）
+- 标题活写：Alibaba PuHuiTi 3.0 900 80px ls12.8，渐变字 linear-gradient(180deg,#FFF 59%,rgba(255,255,255,.8))（handles 垂直）；字体补 105-Heavy.woff2
+- 副标题活写：D-DIN Exp 400（本机 /Users/xuxiaoyi/Library/Fonts/D-DINExp.otf 内嵌），— 22px ls1.76 + 中句 16px ls3.04 + —，flex 居中 gap10
+- 玻璃卡活写：80:1111 rgba(0,0,0,0.2)（paint opacity 0.2）+ backdrop-filter blur(9.9px)（BACKGROUND_BLUR 19.8 减半）+ inset 0 0 78.1px rgba(2,0,99,.25) + r32；下半 80:1116 横向黑渐变 a.045→.3（paint opacity .3 × stops .15→1）+ blur(10.55px)（21.1 减半）+ r32
+- 问候语活写 PingFang 500 22/26 ls1.32 @ (696,470.6)
+- 头像 AI 渲染 80:1115 2x → assets/hero-avatar.png @ (535,374,150)
+- 仅对话框用切图：首屏-对话框.png (1914×360→957×180 无出血) @ (489.6,543.6)
+- 核验：白面板像素边 ref/shot 左顶右完全一致(492/545/1444)；残差 mean≈4 集中在 chips 行=切图(08:12UTC)早于设计(08:14:34UTC)约2分钟所致，非落位问题
+- 删除 assets/hero-title.png、切图/首屏-内容.png（演示内副本）
+- 坑：补丁曾弄坏 Regular 字体行 url 引号致整表 CSS 崩坏（页面塌缩），已修复
+
+## 玻璃卡描边 + 三块底对齐（设计 08:26）
+- 描边按树 strokes：80:1111 border:1.6px solid rgba(255,255,255,0.25)（paint opacity .25, INSIDE）；80:1116 border:1.2px solid rgba(255,255,255,0.3)；对话框描边已烘焙在切图内
+- 底对齐 y=745.2：左列 top 318.2→340.2、右列 317.2→339.2（中部不变，card 底 745.2）
+- 与 08:26 新参照并排核对一致
+
+## 边框圆角细节 + 数据卡描边（设计 08:27）
+- 玻璃卡 80:1111 圆角 32→34；描边维持 1.6px rgba(255,255,255,.25)
+- 数据卡新增内描边（树 strokes）：左列 1px rgba(0,0,0,0.25)、右列 1.6px rgba(0,0,0,0.25)，.statcol.left/.right 区分
+- 对话框描边(#DADEE8 1px)/圆角24 已烘焙切图内，未变
+- 与 08:27 新参照并排核对一致
+
+## 边框再更新 + 首页胶囊效果（设计 08:39）
+- 数据卡描边统一 1.6px rgba(0,0,0,0.25)（左列由 1px 改 1.6px，与右列一致）
+- 玻璃卡描边 alpha .25→.20；下半 .30→.20；圆角 34 维持
+- 首页胶囊：重渲染 hero-nav.png 生效（RADIAL 白 a.8→a.2 × paint opacity .30 + 1px 白@10% 内描边 + GLASS 效果）
+- 按钮箭头改渲染导航实例 I91:3753;3228:868（下箭头 @70%）：闭合 rotate(0) 朝下、展开 rotate(180) 朝上；开/合截图核验通过
+
+## 数据卡描边改白色（修正误读）
+- 树 strokes 为双 paint：[0] 白色渐变描边 visible:false（禁用），[1] SOLID #FFF paint opacity 0.15（生效）
+- 之前误取 strokes[0]（GRADIENT 无 color 字段→被读成 #000）做成黑描边；修正为 border:1.6px solid rgba(255,255,255,0.15)
+- 截图核对白色细描边与参照一致
+
+## 首屏背景视频换压缩版
+- video src 改为 切图/首屏-背景视频-压缩.mp4（940KB，原 3.0MB；时长约 8.06s）；拷贝进 演示/切图/ 并删除旧副本 首屏-背景视频.mp4
+- 核验：HTTP 200 全量 940650 字节；headless 截图首帧正常渲染，首屏各活写层不受影响
+
+## 首屏视频再换：首屏视频高清-压缩.mp4
+- 设计师目录旧两个视频已移除，仅剩 首屏视频高清-压缩.mp4（3.2MB）；拷贝进 演示/切图/ 并改 video src，删除 首屏-背景视频-压缩.mp4 副本
+- 核验：HTTP 200 全量 3231644 字节；截图首帧高清渲染正常
+
+## Cloudflare 二次部署（含全部首屏迭代）
+- 重建 /tmp/ustc-deploy（index.html+assets+fonts+切图，45MB 无点文件）后 wrangler deploy：8 新文件/26 缓存，Version dc58474e-4b78-4fb9-a876-659467226f8b
+- URL 不变 https://ustc-chem-graph.chaoxing.workers.dev ；沙箱 curl 不通 workers.dev，用户浏览器目视
+- GitHub 仍 @09cc6d6（本轮仅部署未推送）

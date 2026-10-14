@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>中国科学技术大学 · 化学专业知识图谱</title>
 <style>
+  @font-face{font-family:"Alibaba PuHuiTi 3.0";src:url("fonts/AlibabaPuHuiTi-3-105-Heavy.woff2") format("woff2");font-weight:900;font-display:swap;}
+  @font-face{font-family:"D-DIN Exp";src:url("fonts/D-DINExp.otf") format("opentype");font-weight:400;font-display:swap;}
   @font-face{font-family:"Alibaba PuHuiTi 3.0";src:url("fonts/AlibabaPuHuiTi-3-55-Regular.ttf") format("truetype");font-weight:400;font-display:swap;}
   @font-face{font-family:"Alibaba PuHuiTi 3.0";src:url("fonts/AlibabaPuHuiTi-3-65-Medium.ttf") format("truetype");font-weight:500;font-display:swap;}
   @font-face{font-family:"Alibaba PuHuiTi 3.0";src:url("fonts/AlibabaPuHuiTi-3-85-Bold.ttf") format("truetype");font-weight:700;font-display:swap;}
@@ -19,13 +21,21 @@
   section{opacity:0;transform:translateY(48px);transition:opacity .8s cubic-bezier(.22,.61,.36,1),transform .8s cubic-bezier(.22,.61,.36,1);}
   section.reveal{opacity:1;transform:none;}
   video.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  /* 首屏中部活写：标题渐变字 + 玻璃卡背景模糊（树 80:1105/80:1111/80:1116） */
+  .hero-title{position:absolute;left:0;top:220px;width:1920px;text-align:center;padding-left:12.8px;font-family:"Alibaba PuHuiTi 3.0","PingFang SC",sans-serif;font-weight:900;font-size:80px;line-height:96px;letter-spacing:12.8px;white-space:nowrap;background:linear-gradient(180deg,#FFFFFF 59%,rgba(255,255,255,0.8) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .hero-sub{position:absolute;left:0;top:326px;width:1920px;height:26px;display:flex;align-items:center;justify-content:center;gap:10px;font-family:"D-DIN Exp","PingFang SC",sans-serif;font-weight:400;color:#FFFFFF;}
+  .hero-sub .d{font-size:22px;line-height:26px;letter-spacing:1.76px;flex:none;}
+  .hero-sub .t{font-size:16px;line-height:19px;letter-spacing:3.04px;white-space:nowrap;flex:none;}
+  .glass-card{position:absolute;left:468px;top:442px;width:1000px;height:303.2px;border-radius:34px;border:1.6px solid rgba(255,255,255,0.2);background:rgba(0,0,0,0.2);-webkit-backdrop-filter:blur(9.9px);backdrop-filter:blur(9.9px);box-shadow:inset 0 0 78.1px rgba(2,0,99,0.25);}
+  .glass-lower{position:absolute;left:469.6px;top:523.6px;width:996.8px;height:220px;border-radius:32px;border:1.2px solid rgba(255,255,255,0.2);background:linear-gradient(90deg,rgba(0,0,0,0.045) -6%,rgba(0,0,0,0.3) 100%);-webkit-backdrop-filter:blur(10.55px);backdrop-filter:blur(10.55px);}
+  .greet{position:absolute;left:696px;top:470.6px;width:544px;height:26px;font-family:"PingFang SC",sans-serif;font-weight:500;font-size:22px;line-height:26px;letter-spacing:1.32px;color:#FFFFFF;white-space:nowrap;}
   /* 进入空间 下拉菜单（树 91:3838）：按钮 117x46 r12 渐变；菜单 167 宽 r8 阴影(0,2,12,.10) pad8/0；项 62 高 pad10/20 gap2 */
   .dd{position:absolute;left:1763px;top:24px;width:117px;height:46px;z-index:6;}
   .dd-btn{position:absolute;inset:0;display:flex;align-items:center;gap:6px;padding:12px 16px 12px 20px;border:0;border-radius:12px;background:linear-gradient(90deg,#2C83F8 0%,#5253FB 100%);cursor:pointer;font-family:"Alibaba PuHuiTi 3.0","PingFang SC",sans-serif;font-weight:700;font-size:16px;line-height:22px;color:#FFFFFF;white-space:nowrap;}
-  .dd .caret{position:absolute;left:89px;top:17px;width:12px;height:12px;background:url("assets/dd-caret.png") center/12px 12px no-repeat;transform:rotate(180deg);transition:transform .25s ease;}
+  .dd .caret{position:absolute;left:89px;top:17px;width:12px;height:12px;background:url("assets/dd-caret.png") center/12px 12px no-repeat;transform:rotate(0deg);transition:transform .25s ease;}
   .dd-menu{position:absolute;top:50px;right:0;width:167px;background:#FFFFFF;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.10);padding:8px 0;display:flex;flex-direction:column;opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .22s ease,transform .22s ease;}
   .dd:hover .dd-menu,.dd.open .dd-menu{opacity:1;transform:none;pointer-events:auto;}
-  .dd:hover .caret,.dd.open .caret{transform:rotate(0deg);}
+  .dd:hover .caret,.dd.open .caret{transform:rotate(180deg);}
   .dd-item{display:flex;flex-direction:column;gap:2px;padding:10px 20px;background:#FFFFFF;cursor:pointer;}
   .dd-item .t{font-family:"Alibaba PuHuiTi 3.0","PingFang SC",sans-serif;font-weight:500;font-size:16px;line-height:22px;color:#474D59;white-space:nowrap;}
   .dd-item .s{font-family:"Alibaba PuHuiTi 3.0","PingFang SC",sans-serif;font-weight:400;font-size:13px;line-height:18px;color:#7E838C;white-space:nowrap;}
@@ -34,6 +44,7 @@
   /* 首屏数据卡：代码活写 + 背景模糊（Figma BACKGROUND_BLUR r50 -> blur(25px)） */
   .statcol{position:absolute;display:flex;flex-direction:column;gap:10px;}
   .stat{display:flex;align-items:flex-start;gap:10px;padding:18px 20px 18px 16px;border-radius:16px;background:rgba(0,0,0,0.38);-webkit-backdrop-filter:blur(25px);backdrop-filter:blur(25px);}
+  .stat{border:1.6px solid rgba(255,255,255,0.15);}
   .stat .ic{width:22px;height:22px;flex:none;}
   .stat .tx{display:flex;flex-direction:column;gap:6px;}
   .stat .lb{font-family:"PingFang SC",sans-serif;font-weight:500;font-size:15px;line-height:21px;color:#fff;white-space:nowrap;}
@@ -50,7 +61,7 @@
 
   <!-- M1 首屏 960 -->
   <section id="m1" style="height:960px;">
-    <video class="bg" src="切图/首屏-背景视频.mp4" autoplay muted loop playsinline></video>
+    <video class="bg" src="切图/首屏视频高清-压缩.mp4" autoplay muted loop playsinline></video>
     <img class="abs" src="assets/hero-nav.png"    style="left:0px;top:0px;width:1920px;">
     <div class="dd" id="ddSpace">
       <button class="dd-btn" type="button">进入空间<i class="caret"></i></button>
@@ -60,15 +71,20 @@
         <div class="dd-item"><span class="t">管理端</span><span class="s">数据驾驶舱 · 平台运行</span></div>
       </div>
     </div>
-  <div class="statcol" style="left:215px;top:318.2px;width:173px;">
+  <div class="statcol left" style="left:215px;top:340.2px;width:173px;">
     <div class="stat" style="height:94px;"><img class="ic" src="assets/stat-icon1.png"><div class="tx"><span class="lb">培养目标要点</span><span class="numrow"><span class="num">8</span><span class="unit">条</span></span></div></div>
     <div class="stat" style="height:94px;"><img class="ic" src="assets/stat-icon2.png"><div class="tx"><span class="lb">毕业要求</span><span class="numrow"><span class="num">7</span><span class="unit">条</span></span></div></div>
     <div class="stat" style="height:93px;"><img class="ic" src="assets/stat-icon3.png"><div class="tx"><span class="lb">毕业要求指标点</span><span class="numrow"><span class="num">18</span><span class="unit">条</span></span></div></div>
     <div class="stat" style="height:94px;"><img class="ic" src="assets/stat-icon4.png"><div class="tx"><span class="lb">专业课程</span><span class="numrow"><span class="num">100</span><span class="unit">门</span></span></div></div>
   </div>
-    <img class="abs" src="assets/hero-title.png"  style="left:603px;top:220px;width:730px;">
-    <img class="abs" src="切图/首屏-内容.png"    style="left:468px;top:220px;width:1000px;">
-  <div class="statcol" style="left:1548px;top:317.2px;width:158px;">
+    <div class="hero-title">化学专业知识图谱</div>
+    <div class="hero-sub"><span class="d">—</span><span class="t">UNIVERSITY OF SCIENCE AND TECHNOLOGY OF CHINA · CHEMISTRY</span><span class="d">—</span></div>
+    <div class="glass-card"></div>
+    <div class="glass-lower"></div>
+    <div class="greet">你好，我是专业学习助手，欢迎随时向我提问！</div>
+    <img class="abs" src="切图/首屏-对话框.png" style="left:489.6px;top:543.6px;width:957px;">
+    <img class="abs" src="assets/hero-avatar.png" style="left:535px;top:374px;width:150px;">
+  <div class="statcol right" style="left:1548px;top:339.2px;width:158px;">
     <div class="stat" style="height:94px;"><img class="ic" src="assets/stat-icon5.png"><div class="tx"><span class="lb">课程知识图谱</span><span class="numrow"><span class="num">21</span><span class="unit">门</span></span></div></div>
     <div class="stat" style="height:94px;"><img class="ic" src="assets/stat-icon6.png"><div class="tx"><span class="lb">知识点数量</span><span class="numrow"><span class="num">4809</span><span class="unit">个</span></span></div></div>
     <div class="stat" style="height:94px;"><img class="ic" src="assets/stat-icon7.png"><div class="tx"><span class="lb">专业方向</span><span class="numrow"><span class="num">8</span><span class="unit">个</span></span></div></div>
