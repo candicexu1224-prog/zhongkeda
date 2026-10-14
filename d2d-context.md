@@ -134,3 +134,18 @@ M7 h276: 底部(0,0,w1920)
 - 重建 /tmp/ustc-deploy（index.html+assets+fonts+切图，45MB 无点文件）后 wrangler deploy：8 新文件/26 缓存，Version dc58474e-4b78-4fb9-a876-659467226f8b
 - URL 不变 https://ustc-chem-graph.chaoxing.workers.dev ；沙箱 curl 不通 workers.dev，用户浏览器目视
 - GitHub 仍 @09cc6d6（本轮仅部署未推送）
+
+## GitHub Pages 国内镜像（无域名方案）
+- 原因：workers.dev 在中国大陆被 DNS 污染/阻断；账号下无 zone 且用户无域名 → 自定义域名不可行
+- 推送 main 09cc6d6..b2b6dfe；API 启用 Pages（source main / 根目录）；status built
+- 镜像 URL: https://candicexu1224-prog.github.io/zhongkeda/ （首页 200 标题正确；中文路径视频 200 全量）
+- Cloudflare 版本并存：https://ustc-chem-graph.chaoxing.workers.dev （VPN/海外）
+
+## 首屏加载优化（视频空窗）
+- 根因：3.2MB 视频首帧到达前 video 透明露白底
+- 方案：① m1 加深色底 #071725 防白闪；② video 加 poster=assets/hero-poster.jpg（headless 抽视频首帧转 JPEG q72，84KB）即时占位；③ preload="auto" 提前下载
+- 验证：?static=1 + virtual-time-budget=200 截图首屏已为完整深色画面（poster 生效），无空白期
+
+## 视频三换：首屏视频高清叠化-压缩.mp4
+- 3.67MB；拷贝进 演示/切图/、改 video src、删除 首屏视频高清-压缩.mp4 副本
+- poster 重抽为新视频首帧（79KB JPEG），早期加载截图确认占位画面完整无白屏
