@@ -1,0 +1,82 @@
+# d2d-context · 中国科学技术大学化学专业知识图谱
+
+- 设计链接: https://www.figma.com/design/xOHFg28WFNodS09XLii57p/?node-id=80-1042
+- fileKey: xOHFg28WFNodS09XLii57p ; 根节点 80:1042 (页面 1920×6802)
+- lastModified: 2026-10-14T06:42:55Z
+- 切图: /Users/xuxiaoyi/Downloads/中国科学技术大学/切图
+- 演示: /Users/xuxiaoyi/Downloads/中国科学技术大学/演示 (server root = 中国科学技术大学)
+
+## 模块骨架（bbox 归零到页面原点）
+| # | 模块 | 节点 | bbox | 背景 | 内容来源 |
+|---|---|---|---|---|---|
+|1|首屏|80:1043|0,0,1920,960|video cover|切图首屏-内容 + AI-cut nav/left/title/right|
+|2|培养目标与毕业要求|80:1214|0,960,1920,1258|#FFF|切图标题+内容 + AI-cut texture/details|
+|3|支撑矩阵|80:1287|0,2218,1920,927|#FFF|切图内容 + AI-cut header|
+|4|专业课程整体框架|80:1401|0,3145,1920,1043|grad #F2F4F7(0/58%)→#FFF|切图内容 + AI-cut header/tabs|
+|5|专业方向专题|80:1513|0,4188,1920,1284|#FFF|切图内容(整卡)|
+|6|课程知识图谱|80:1589|0,5472,1920,1054|grad #FFF→#EDEFF2 + texture|切图内容 + AI-cut texture/header/tabs|
+|7|底部|80:1617|0,6526,1920,276|切图整卡|切图底部|
+
+## 装配规格（module-local 1x）
+M1 h960: video inset0 | hero-nav(0,0,w1920) | hero-left(215,318.2,w173) | hero-title(603,220,w730) | 首屏-内容(468,220,w1000) | hero-right(1548,317.2,w158)
+  首屏-内容定位: 切图 alpha 全宽扫描 card top=222(display); 树 card 80:1110 top=442 → top=220(=80:1101 top), left=468, w=1000
+M2 h1258: m2-texture(0,0,w1258) | 标题(120,80,w1680) | 内容(120,217,w1680) | m2-details(120,1154,w1680)
+M3 h927: m3-header(120,40,w1680) | 内容(120,167,w1680)
+M4 h1043: m4-header(120,70,w1680) | m4-tabs(120,207,w770) | 内容(120,300,w1680)
+M5 h1284: 内容(20,20,w1880)
+M6 h1054: m6-texture(0,0,w1920) | m6-header(120,60,w1680) | m6-tabs(120,187,w1680) | 内容(120,270,w1680)
+M7 h276: 底部(0,0,w1920)
+
+## 执行观测
+- 模块分级: M1 代码参与; M2~M7 纯拼装
+- 漏切(AI 补切 12 张): hero nav/left/title/right, m2 texture/details, m3 header, m4 header/tabs, m6 texture/header/tabs
+- M4 渐变实测: y100~600≈#F2F4F7 平台→1000 到 #FFF
+
+## 验收（?static=1 全页截图 1920×6802，逐模块 crop.py diff scale=1）
+- m2 1.152 LOW / m3 0.076 LOW / m4 0.513 LOW / m5 0.819 LOW / m6 3.543 LOW / m7 0.837 LOW
+- m1 整模块 DIFF（视频帧差异，属动态豁免）；不透明前景 glass-card 区域 diff=1.989 通过；left/right/nav 为半透明叠视频，残差来自视频帧非布局
+- m2 内容切图含阴影出血(3373×1804 vs 节点3360×1794)：alpha 实心区在画布 (3,0)→(1682.5,896.5)，故按 left=117,top=217,width=1686.5 落位（树节点 120,217,1680,897 + 出血补偿）；修复前 mean 4.97→修复后 1.152
+
+## 更新轮（Figma lastModified 07:20）
+- 导航右上名字设计稿已改为【进入空间】(Alibaba PuHuiTi 3.0 700 16px)，重渲染 hero-nav.png 生效，截图核验通过
+- 切图内容更新（尺寸不变）：专业方向专题-内容.png、底部.png；演示直接引用切图路径自动生效
+- 因设计变动全量重渲染 12 张 AI-cut + 重下 7 张模块参照；模块 bbox 未变，落位不变
+- 复测 diff：m2 1.152 / m3 0.076 / m4 0.513 / m5 0.785 / m6 3.543 / m7 0.841 全 LOW
+
+## 首屏数据卡改代码活写（弃切图）
+- 删除 assets/hero-left.png、hero-right.png；改为 .statcol/.stat 活写 + 毛玻璃
+- 参数全取树：列 left/top/width=215,318.2,173 与 1548,317.2,158；gap10；卡 r16、pad18/20/18/16、高94(93)；icon22；label PingFang 500 15/21；num Avenir 900 22/30 ls.44 斜体；unit 15/21 opacity.8 margin-top6
+- 背景模糊：Figma BACKGROUND_BLUR radius50 → backdrop-filter:blur(25px)（含 -webkit- 前缀）；底色 rgba(0,0,0,0.38)（参照采样内部≈视频×0.7 定标）
+- 8 个图标 AI 渲染 2x：assets/stat-icon1..8.png（44×44）
+- 几何为树值结构保证：label x=263/1596、num y=363.2/362.2、unit y=369.2/368.2 均与树一致
+
+## 进入空间 下拉菜单（树 91:3838）
+- 活写按钮覆盖导航烘焙按钮：(1763,24,117,46) r12，linear-gradient(90deg,#2C83F8,#5253FB)，pad 12/16/12/20，gap6，文字 Alibaba PuHuiTi 3.0 700 16/22 #FFF + CSS caret（开合旋转180°）
+- 菜单：top=按钮下4px、right 对齐按钮右缘(1880)、宽167、r8、shadow 0 2px 12px rgba(0,0,0,.10)、pad 8/0；3 项 62 高 pad10/20 gap2；标题 500 16/22 #474D59、副题 400 13/18 #7E838C；hover 项 #EDF3FF + #266FFF（=设计中的选中态样式）
+- 交互：hover 展开 + 点击开合 + 外部点击关闭；展开淡入+上移6px .22s；?dd=1 为验收常开钩子
+- 字体内嵌：fonts/AlibabaPuHuiTi-3-{55-Regular,65-Medium,85-Bold}.ttf（本机 mdfind 命中拷入），@font-face 400/500/700
+- 几何核验：菜单 left=1713/top=74/right=1880，按钮 left=1763，与树一致
+
+## 替换 培养目标与毕业要求-内容 切图（15:35 新文件）
+- 新文件尺寸/出血与旧版一致（canvas 3373×1804，实心区 3.0→1682.5 / 0→896.5）→ 落位不变 left=117,top=217,width=1686.5
+- 重下参照 80:1214（设计 07:38 变动）复测 m2 diff=1.154 LOW，像素一致
+
+## 进入空间 箭头修正（按设计完全还原）
+- 弃 CSS 手绘 chevron；改渲染设计矢量 I91:3783;3228:868（线性/上箭头）2x → assets/dd-caret.png（12×12，墨迹 11×6.5 ≈ 树 10.7×6.2）
+- 定位取树：按钮内 left:89/top:17（=caret 实例 bbox 139,17 减按钮原点 50,0）；收起 rotate(180deg) 朝下、展开 rotate(0) 朝上，.25s 过渡
+- 截图比对开/合两态与 ref-91-3838 按钮：形状/粗细/位置一致
+
+## 二次替换 培养目标与毕业要求-内容 切图（15:40 新文件）
+- 尺寸/出血仍一致（3373×1804，实心区 3.0→1682.5 / 0→896.5）→ 落位不变
+- 重下参照 80:1214（设计 07:43 变动）复测 m2 diff=1.155 LOW
+
+## 入场动效改为可逆（每次滚到都播放）
+- IO 不再 unobserve：isIntersecting 时加 .reveal、离开视口（rootMargin -6% 盒外）移除 .reveal 复位
+- revealCheck 兜底改为对称 toggle（top<94%vh 且 bottom>0 才保持）
+- ?static=1 验收模式不受影响（STATIC 时不 toggle，CSS 强制全显）
+- 验证：load 仅 m1；#m5 时 m1 复位+m5 播放；回 #m1 重新播放
+
+## 底部(m7)入场只播一次
+- m7 加 class="once"；IO/revealCheck 中 once 模块显现后写 dataset.done=1，滚出视口不再移除 .reveal（锁定）
+- 其余模块保持可逆
+- 序列实测（滚到底→回顶）：m2~m6 复位 hidden，m7 保持 REVEAL；临时 seq 钩子验证后已移除

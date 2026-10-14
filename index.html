@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中国科学技术大学 · 化学专业知识图谱</title>
+<style>
+  @font-face{font-family:"Alibaba PuHuiTi 3.0";src:url("fonts/AlibabaPuHuiTi-3-55-Regular.ttf") format("truetype");font-weight:400;font-display:swap;}
+  @font-face{font-family:"Alibaba PuHuiTi 3.0";src:url("fonts/AlibabaPuHuiTi-3-65-Medium.ttf") format("truetype");font-weight:500;font-display:swap;}
+  @font-face{font-family:"Alibaba PuHuiTi 3.0";src:url("fonts/AlibabaPuHuiTi-3-85-Bold.ttf") format("truetype");font-weight:700;font-display:swap;}
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased;}
+  body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:#FFFFFF;}
+  img{display:block;}
+  .scale-wrap{position:relative;width:100%;overflow:hidden;}
+  .stage{width:1920px;position:absolute;top:0;left:50%;transform-origin:top center;}
+  section{position:relative;width:1920px;overflow:hidden;}
+  section .abs{position:absolute;height:auto;}
+  section.flush{padding:0;}
+  section{opacity:0;transform:translateY(48px);transition:opacity .8s cubic-bezier(.22,.61,.36,1),transform .8s cubic-bezier(.22,.61,.36,1);}
+  section.reveal{opacity:1;transform:none;}
+  video.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  /* 进入空间 下拉菜单（树 91:3838）：按钮 117x46 r12 渐变；菜单 167 宽 r8 阴影(0,2,12,.10) pad8/0；项 62 高 pad10/20 gap2 */
+  .dd{position:absolute;left:1763px;top:24px;width:117px;height:46px;z-index:6;}
+  .dd-btn{position:absolute;inset:0;display:flex;align-items:center;gap:6px;padding:12px 16px 12px 20px;border:0;border-radius:12px;background:linear-gradient(90deg,#2C83F8 0%,#5253FB 100%);cursor:pointer;font-family:"Alibaba PuHuiTi 3.0","PingFang SC",sans-serif;font-weight:700;font-size:16px;line-height:22px;color:#FFFFFF;white-space:nowrap;}
+  .dd .caret{position:absolute;left:89px;top:17px;width:12px;height:12px;background:url("assets/dd-caret.png") center/12px 12px no-repeat;transform:rotate(180deg);transition:transform .25s ease;}
+  .dd-menu{position:absolute;top:50px;right:0;width:167px;background:#FFFFFF;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.10);padding:8px 0;display:flex;flex-direction:column;opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .22s ease,transform .22s ease;}
+  .dd:hover .dd-menu,.dd.open .dd-menu{opacity:1;transform:none;pointer-events:auto;}
+  .dd:hover .caret,.dd.open .caret{transform:rotate(0deg);}
+  .dd-item{display:flex;flex-direction:column;gap:2px;padding:10px 20px;background:#FFFFFF;cursor:pointer;}
+  .dd-item .t{font-family:"Alibaba PuHuiTi 3.0","PingFang SC",sans-serif;font-weight:500;font-size:16px;line-height:22px;color:#474D59;white-space:nowrap;}
+  .dd-item .s{font-family:"Alibaba PuHuiTi 3.0","PingFang SC",sans-serif;font-weight:400;font-size:13px;line-height:18px;color:#7E838C;white-space:nowrap;}
+  .dd-item:hover{background:#EDF3FF;}
+  .dd-item:hover .t,.dd-item:hover .s{color:#266FFF;}
+  /* 首屏数据卡：代码活写 + 背景模糊（Figma BACKGROUND_BLUR r50 -> blur(25px)） */
+  .statcol{position:absolute;display:flex;flex-direction:column;gap:10px;}
+  .stat{display:flex;align-items:flex-start;gap:10px;padding:18px 20px 18px 16px;border-radius:16px;background:rgba(0,0,0,0.38);-webkit-backdrop-filter:blur(25px);backdrop-filter:blur(25px);}
+  .stat .ic{width:22px;height:22px;flex:none;}
+  .stat .tx{display:flex;flex-direction:column;gap:6px;}
+  .stat .lb{font-family:"PingFang SC",sans-serif;font-weight:500;font-size:15px;line-height:21px;color:#fff;white-space:nowrap;}
+  .stat .numrow{display:flex;align-items:flex-start;gap:6px;}
+  .stat .num{font-style:italic;font-family:Avenir,"Avenir Next","Helvetica Neue",sans-serif;font-weight:900;font-size:22px;line-height:30px;letter-spacing:.44px;color:#fff;}
+  .stat .unit{font-family:"PingFang SC",sans-serif;font-weight:400;font-size:15px;line-height:21px;color:#fff;opacity:.8;margin-top:6px;white-space:nowrap;}
+  html.static *, html.static *::before, html.static *::after{animation:none !important;transition:none !important;}
+  html.static section{opacity:1 !important;transform:none !important;}
+</style>
+<script>if(location.search.indexOf('static')>=0){document.documentElement.classList.add('static');}</script>
+</head>
+<body>
+<div class="scale-wrap" id="scaleWrap"><div class="stage" id="stage">
+
+  <!-- M1 首屏 960 -->
+  <section id="m1" style="height:960px;">
+    <video class="bg" src="切图/首屏-背景视频.mp4" autoplay muted loop playsinline></video>
+    <img class="abs" src="assets/hero-nav.png"    style="left:0px;top:0px;width:1920px;">
+    <div class="dd" id="ddSpace">
+      <button class="dd-btn" type="button">进入空间<i class="caret"></i></button>
+      <div class="dd-menu">
+        <div class="dd-item"><span class="t">学生空间</span><span class="s">学习 · 项目 · 成长</span></div>
+        <div class="dd-item"><span class="t">教师空间</span><span class="s">课程 · 教学 ·指导</span></div>
+        <div class="dd-item"><span class="t">管理端</span><span class="s">数据驾驶舱 · 平台运行</span></div>
+      </div>
+    </div>
+  <div class="statcol" style="left:215px;top:318.2px;width:173px;">
+    <div class="stat" style="height:94px;"><img class="ic" src="assets/stat-icon1.png"><div class="tx"><span class="lb">培养目标要点</span><span class="numrow"><span class="num">8</span><span class="unit">条</span></span></div></div>
+    <div class="stat" style="height:94px;"><img class="ic" src="assets/stat-icon2.png"><div class="tx"><span class="lb">毕业要求</span><span class="numrow"><span class="num">7</span><span class="unit">条</span></span></div></div>
+    <div class="stat" style="height:93px;"><img class="ic" src="assets/stat-icon3.png"><div class="tx"><span class="lb">毕业要求指标点</span><span class="numrow"><span class="num">18</span><span class="unit">条</span></span></div></div>
+    <div class="stat" style="height:94px;"><img class="ic" src="assets/stat-icon4.png"><div class="tx"><span class="lb">专业课程</span><span class="numrow"><span class="num">100</span><span class="unit">门</span></span></div></div>
+  </div>
+    <img class="abs" src="assets/hero-title.png"  style="left:603px;top:220px;width:730px;">
+    <img class="abs" src="切图/首屏-内容.png"    style="left:468px;top:220px;width:1000px;">
+  <div class="statcol" style="left:1548px;top:317.2px;width:158px;">
+    <div class="stat" style="height:94px;"><img class="ic" src="assets/stat-icon5.png"><div class="tx"><span class="lb">课程知识图谱</span><span class="numrow"><span class="num">21</span><span class="unit">门</span></span></div></div>
+    <div class="stat" style="height:94px;"><img class="ic" src="assets/stat-icon6.png"><div class="tx"><span class="lb">知识点数量</span><span class="numrow"><span class="num">4809</span><span class="unit">个</span></span></div></div>
+    <div class="stat" style="height:94px;"><img class="ic" src="assets/stat-icon7.png"><div class="tx"><span class="lb">专业方向</span><span class="numrow"><span class="num">8</span><span class="unit">个</span></span></div></div>
+    <div class="stat" style="height:94px;"><img class="ic" src="assets/stat-icon8.png"><div class="tx"><span class="lb">跨学院课程</span><span class="numrow"><span class="num">5</span><span class="unit">门</span></span></div></div>
+  </div>
+  </section>
+
+  <!-- M2 培养目标与毕业要求 1258 -->
+  <section id="m2" style="height:1258px;background:#FFFFFF;">
+    <img class="abs" src="assets/m2-texture.png" style="left:0px;top:0px;width:1258px;">
+    <img class="abs" src="切图/培养目标与毕业要求-标题.png" style="left:120px;top:80px;width:1680px;">
+    <img class="abs" src="切图/培养目标与毕业要求-内容.png" style="left:117px;top:217px;width:1686.5px;">
+    <img class="abs" src="assets/m2-details.png" style="left:120px;top:1154px;width:1680px;">
+  </section>
+
+  <!-- M3 课程对毕业要求的支撑矩阵 927 -->
+  <section id="m3" style="height:927px;background:#FFFFFF;">
+    <img class="abs" src="assets/m3-header.png" style="left:120px;top:40px;width:1680px;">
+    <img class="abs" src="切图/课程对毕业要求的支撑矩阵-内容.png" style="left:120px;top:167px;width:1680px;">
+  </section>
+
+  <!-- M4 专业课程整体框架 1043 -->
+  <section id="m4" style="height:1043px;background:linear-gradient(180deg,#F2F4F7 0%,#F2F4F7 58%,#FFFFFF 100%);">
+    <img class="abs" src="assets/m4-header.png" style="left:120px;top:70px;width:1680px;">
+    <img class="abs" src="assets/m4-tabs.png"   style="left:120px;top:207px;width:770px;">
+    <img class="abs" src="切图/专业课程整体框架-内容.png" style="left:120px;top:300px;width:1680px;">
+  </section>
+
+  <!-- M5 专业方向专题 1284 -->
+  <section id="m5" style="height:1284px;background:#FFFFFF;">
+    <img class="abs" src="切图/专业方向专题-内容.png" style="left:20px;top:20px;width:1880px;">
+  </section>
+
+  <!-- M6 课程知识图谱 1054 -->
+  <section id="m6" style="height:1054px;background:linear-gradient(180deg,#FFFFFF 0%,#EDEFF2 100%);">
+    <img class="abs" src="assets/m6-texture.png" style="left:0px;top:0px;width:1920px;">
+    <img class="abs" src="assets/m6-header.png"  style="left:120px;top:60px;width:1680px;">
+    <img class="abs" src="assets/m6-tabs.png"    style="left:120px;top:187px;width:1680px;">
+    <img class="abs" src="切图/课程知识图谱-内容.png" style="left:120px;top:270px;width:1680px;">
+  </section>
+
+  <!-- M7 底部 276 -->
+  <section id="m7" class="once" style="height:276px;">
+    <img class="abs" src="切图/底部.png" style="left:0px;top:0px;width:1920px;">
+  </section>
+
+</div></div>
+
+<script>
+  var DESIGN_W=1920, stage=document.getElementById('stage'), wrap=document.getElementById('scaleWrap');
+  function fit(){var s=Math.min(1,innerWidth/DESIGN_W);var secs=stage.querySelectorAll('section');var last=secs[secs.length-1];var H=last.offsetTop+last.offsetHeight;stage.style.transform='translateX(-50%) scale('+s+')';wrap.style.height=(H*s)+'px';}
+  addEventListener('resize',fit);addEventListener('load',fit);fit();
+  var STATIC=document.documentElement.classList.contains('static');
+  // 可逆入场：进入视口播放、完全离开视口复位，再次滚到重新播放
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(STATIC)return;var t=e.target;
+    if(e.isIntersecting){t.classList.add('reveal');if(t.classList.contains('once'))t.dataset.done='1';}
+    else if(!(t.classList.contains('once')&&t.dataset.done)){t.classList.remove('reveal');}});},{threshold:0.08,rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('section').forEach(function(s){io.observe(s);});
+  function revealCheck(){if(STATIC)return;document.querySelectorAll('section').forEach(function(s){var r=s.getBoundingClientRect();var inview=r.top<innerHeight*0.94&&r.bottom>0;
+    if(inview){s.classList.add('reveal');if(s.classList.contains('once'))s.dataset.done='1';}
+    else if(!(s.classList.contains('once')&&s.dataset.done)){s.classList.remove('reveal');}});}
+  addEventListener('scroll',revealCheck,{passive:true});revealCheck();
+  (function(){var dd=document.getElementById('ddSpace');if(!dd)return;
+    dd.querySelector('.dd-btn').addEventListener('click',function(e){e.stopPropagation();dd.classList.toggle('open');});
+    document.addEventListener('click',function(e){if(!dd.contains(e.target))dd.classList.remove('open');});
+    if(location.search.indexOf('dd=1')>=0){dd.classList.add('open');}})();
+  if(location.hash){var t=document.getElementById(location.hash.slice(1));if(t){setTimeout(function(){window.scrollTo(0,t.offsetTop);revealCheck();},60);}}
+</script>
+</body>
+</html>
